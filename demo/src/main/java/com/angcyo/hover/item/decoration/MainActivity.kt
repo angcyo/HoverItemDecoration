@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun linearLayoutTest() {
+        overPositionList.clear()
 
         baseViewHolder.rv(R.id.recycler_view)?.apply {
             layoutManager = LinearLayoutManager(applicationContext)
