@@ -36,13 +36,23 @@ class MainActivity : AppCompatActivity() {
             linearLayoutTest()
         }
 
+        baseViewHolder.rv(R.id.recycler_view)?.apply {
+            HoverItemDecoration().attachToRecyclerView(this) {
+                decorationOverLayoutType = {
+                    R.layout.item_text
+                }
+
+                haveOverDecoration = {
+                    overPositionList.contains(it)
+                }
+            }
+        }
     }
 
     fun gridLayoutTest() {
         overPositionList.clear()
 
         baseViewHolder.rv(R.id.recycler_view)?.apply {
-            clearItemDecoration()
 
             dslAdapter(4) {
                 for (i in 0..2) {
@@ -79,25 +89,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            HoverItemDecoration().attachToRecyclerView(this) {
-                decorationOverLayoutType = {
-                    R.layout.item_text
-                }
-
-                haveOverDecoration = {
-                    overPositionList.contains(it)
-                }
-            }
         }
     }
 
     fun linearLayoutTest() {
-        overPositionList.clear()
 
         baseViewHolder.rv(R.id.recycler_view)?.apply {
             layoutManager = LinearLayoutManager(applicationContext)
-            clearItemDecoration()
 
             dslAdapter {
                 for (i in 0..2) {
@@ -130,16 +128,6 @@ class MainActivity : AppCompatActivity() {
                             itemLayoutId = R.layout.item_image
                         }
                     }
-                }
-            }
-
-            HoverItemDecoration().attachToRecyclerView(this) {
-                decorationOverLayoutType = {
-                    R.layout.item_text
-                }
-
-                haveOverDecoration = {
-                    overPositionList.contains(it)
                 }
             }
         }

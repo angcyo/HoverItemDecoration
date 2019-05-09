@@ -49,7 +49,11 @@ open class HoverItemDecoration : RecyclerView.ItemDecoration() {
                 overViewHolder?.apply {
                     //一定要调用dispatchTouchEvent, 否则ViewGroup里面的子View, 不会响应touchEvent
                     itemView.dispatchTouchEvent(event)
-                    if (itemView is ViewGroup && (itemView as ViewGroup).onInterceptTouchEvent(event)) {
+                    if (itemView is ViewGroup) {
+                        if ((itemView as ViewGroup).onInterceptTouchEvent(event)) {
+                            itemView.onTouchEvent(event)
+                        }
+                    } else {
                         itemView.onTouchEvent(event)
                     }
                 }
