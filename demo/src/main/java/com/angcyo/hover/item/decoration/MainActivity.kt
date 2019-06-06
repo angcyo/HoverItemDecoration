@@ -5,13 +5,14 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
+import com.angcyo.hover.item.decoration.dsl.DslAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val overPositionList = mutableListOf<Int>()
-
     lateinit var baseViewHolder: RBaseViewHolder
+
+    val itemDecoration = HoverItemDecoration()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,56 +37,54 @@ class MainActivity : AppCompatActivity() {
             linearLayoutTest()
         }
 
-        baseViewHolder.rv(R.id.recycler_view)?.apply {
-            HoverItemDecoration().attachToRecyclerView(this) {
-                decorationOverLayoutType = {
-                    R.layout.item_text
+        baseViewHolder.click(R.id.d1) {
+            itemDecoration.let {
+                it.detachedFromRecyclerView()
+                it.attachToRecyclerView(baseViewHolder.rv(R.id.recycler_view)) {
+                    enableTouchEvent = false
+                    enableDrawableState = false
                 }
+            }
+        }
+        baseViewHolder.click(R.id.d2) {
+            itemDecoration.let {
+                it.detachedFromRecyclerView()
+                it.attachToRecyclerView(baseViewHolder.rv(R.id.recycler_view)) {
+                    enableTouchEvent = true
+                    enableDrawableState = false
+                }
+            }
+        }
+        baseViewHolder.click(R.id.d3) {
+            itemDecoration.let {
+                it.detachedFromRecyclerView()
+                it.attachToRecyclerView(baseViewHolder.rv(R.id.recycler_view)) {
+                    enableTouchEvent = true
+                    enableDrawableState = true
+                }
+            }
+        }
 
-                haveOverDecoration = {
-                    overPositionList.contains(it)
-                }
+        baseViewHolder.rv(R.id.recycler_view)?.apply {
+            itemDecoration.let {
+                it.detachedFromRecyclerView()
+                it.attachToRecyclerView(this)
             }
         }
     }
 
     fun gridLayoutTest() {
-        overPositionList.clear()
-
         baseViewHolder.rv(R.id.recycler_view)?.apply {
 
             dslAdapter(4) {
                 for (i in 0..2) {
-                    renderItem {
-                        itemLayoutId = R.layout.item_image_little
-                    }
+                    renderImageItem(this, true)
                 }
 
                 for (i in 0..5) {
-                    overPositionList.add(i * 7 + 3)
-
-                    renderItem {
-                        itemSpanCount = 4
-
-                        itemLayoutId = R.layout.item_text
-
-                        itemBind = { itemHolder, itemPosition, adapterItem ->
-                            itemHolder.tv(R.id.text_view)?.text = "位置$itemPosition"
-
-                            itemHolder.clickItem {
-                                show("点击位置:$itemPosition")
-                            }
-
-                            itemHolder.click(R.id.check_box) {
-                                show("CheckBox:$itemPosition")
-                            }
-                        }
-                    }
-
+                    renderTextItem(this, 4)
                     for (i in 0..5) {
-                        renderItem {
-                            itemLayoutId = R.layout.item_image_little
-                        }
+                        renderImageItem(this, true)
                     }
                 }
             }
@@ -93,42 +92,54 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun linearLayoutTest() {
-        overPositionList.clear()
-
         baseViewHolder.rv(R.id.recycler_view)?.apply {
             layoutManager = LinearLayoutManager(applicationContext)
 
             dslAdapter {
                 for (i in 0..2) {
-                    renderItem {
-                        itemLayoutId = R.layout.item_image
-                    }
+                    renderImageItem(this)
                 }
 
                 for (i in 0..5) {
-                    overPositionList.add(i * 3 + 3)
-
-                    renderItem {
-                        itemLayoutId = R.layout.item_text
-
-                        itemBind = { itemHolder, itemPosition, adapterItem ->
-                            itemHolder.tv(R.id.text_view)?.text = "位置$itemPosition"
-
-                            itemHolder.clickItem {
-                                show("点击位置:$itemPosition")
-                            }
-
-                            itemHolder.click(R.id.check_box) {
-                                show("CheckBox:$itemPosition")
-                            }
-                        }
-                    }
+                    renderTextItem(this)
 
                     for (i in 0..1) {
-                        renderItem {
-                            itemLayoutId = R.layout.item_image
-                        }
+                        renderImageItem(this)
                     }
+                }
+            }
+        }
+    }
+
+    fun renderImageItem(dslAdapter: DslAdapter, grid: Boolean = false) {
+        dslAdapter.renderItem {
+            itemLayoutId = if (grid) R.layout.item_image_little else R.layout.item_image
+
+            itemBind = { itemHolder, position, _ ->
+                itemHolder.clickItem {
+                    show("戳到人家[鼻孔]啦:$position")
+                }
+            }
+        }
+    }
+
+    fun renderTextItem(dslAdapter: DslAdapter, spanCount: Int = 1) {
+        dslAdapter.renderItem {
+            /**极致体验, 想哪悬停, 就哪悬停*/
+            itemIsHover = true
+            itemSpanCount = spanCount
+
+            itemLayoutId = R.layout.item_text
+
+            itemBind = { itemHolder, itemPosition, _ ->
+                itemHolder.tv(R.id.text_view)?.text = "位置$itemPosition"
+
+                itemHolder.clickItem {
+                    show("点击位置:$itemPosition")
+                }
+
+                itemHolder.click(R.id.check_box) {
+                    show("CheckBox:$itemPosition")
                 }
             }
         }
@@ -136,6 +147,8 @@ class MainActivity : AppCompatActivity() {
 
     fun show(text: CharSequence) {
         Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
+
+        title = "${nowTime()} -> $text"
     }
 }
 

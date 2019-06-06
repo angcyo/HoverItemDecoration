@@ -15,7 +15,7 @@
             android:layout_height="match_parent"/>
 
     <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:paddingLeft="6dp"
                 android:paddingRight="6dp"
+                android:textAllCaps="false"
                 android:layout_marginRight="6dp"
                 android:layout_height="wrap_content"/>
 
@@ -36,11 +37,52 @@
                 android:paddingLeft="6dp"
                 android:paddingRight="6dp"
                 android:layout_marginRight="6dp"
+                android:textAllCaps="false"
                 android:text="Grid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="选择分割线特性↓"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/d1"
+                android:text="仅绘制悬停分割线"
+                android:layout_width="wrap_content"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:textAllCaps="false"
+                android:layout_marginRight="6dp"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/d2"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:layout_marginRight="6dp"
+                android:text="仅带Touch事件"
+                android:textAllCaps="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/d3"
+                android:paddingLeft="6dp"
+                android:textAllCaps="false"
+                android:paddingRight="6dp"
+                android:layout_marginRight="6dp"
+                android:text="极致体验,带Touch,带Drawable效果"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

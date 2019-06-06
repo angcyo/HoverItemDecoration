@@ -22,6 +22,11 @@ open class DslAdapterItem {
     /**附加的数据*/
     var itemData: Any? = null
 
+    /**
+     * 是否需要悬停, 极致体验, 需要悬停就设置为 true, 否则 false
+     * */
+    var itemIsHover = false
+
     /**界面绑定*/
     var itemBind: (itemHolder: RBaseViewHolder, itemPosition: Int, adapterItem: DslAdapterItem) -> Unit = { _, _, _ -> }
 }
