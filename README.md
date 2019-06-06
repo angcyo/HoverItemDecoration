@@ -10,7 +10,7 @@
 
 额...
 
-```java
+```kotlin
 /**极致体验, 想哪悬停, 就哪悬停*/
 itemIsHover = true
 ```
@@ -22,17 +22,17 @@ itemIsHover = true
 
 ---
 
-```java
+```kotlin
 HoverItemDecoration().attachToRecyclerView(recyclerView)
 ```
 
-```java
+```kotlin
 HoverItemDecoration().attachToRecyclerView(recyclerView) {
     enableTouchEvent = true
     enableDrawableState = true
 }
 ```
-```java
+```kotlin
 HoverItemDecoration().attachToRecyclerView(recyclerView) {
     enableTouchEvent = false
     enableDrawableState = false
@@ -43,7 +43,7 @@ HoverItemDecoration().attachToRecyclerView(recyclerView) {
 
 参考[HoverCallback]类:
 
-```java
+```kotlin
 class HoverCallback {
 
         /**激活touch手势*/
